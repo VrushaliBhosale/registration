@@ -1,0 +1,11 @@
+{
+    "name": "",
+    "description": "",
+    "autoload": {
+        "psr-4": { "UserRegistration\\Activity\\": "src" }
+        
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.0"
+    }
+}
