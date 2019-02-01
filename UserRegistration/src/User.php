@@ -181,11 +181,10 @@ function __construct()
   
   public function insert_query($user_role)
   {
-      echo $this->hash;
      $sql="INSERT INTO signed_users (fname,email,pass,roles)VALUES('$this->name', '$this->email', '$this->hash','$user_role')";
     if($this->conn->query($sql))
        {
-           echo "inside insert";
+          
            return true;
        }
        else{

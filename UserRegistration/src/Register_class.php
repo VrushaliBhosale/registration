@@ -19,7 +19,7 @@ class Register_class extends User
     protected $client;
     protected $to;
     protected $subject;
-    protected $role;
+    public $role;
    
    // public $email;
     public function __construct()
