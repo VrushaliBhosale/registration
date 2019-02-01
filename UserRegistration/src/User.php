@@ -63,9 +63,9 @@ function __construct()
     
   }
 
-  public function allRecords()
+  public function allRecords($start_from,$limit)
   {
-    $sql="select * from signed_users";
+    $sql="select * from signed_users LIMIT $start_from,$limit";
     $result=mysqli_query($this->conn,$sql);
     if ($result->num_rows > 0)
     {
@@ -157,6 +157,18 @@ function __construct()
     }
     
      return false;
+ }
+
+ public function getCount()
+ {
+     $sql="select COUNT(*) as total from signed_users";
+     $result=mysqli_query($this->conn,$sql);
+     if ($result->num_rows > 0) 
+     {
+         $row = $result->fetch_assoc();
+          return $row['total'];
+         
+     }
  }
 
   public function isVerified($email)

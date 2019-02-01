@@ -3,6 +3,10 @@ require_once "vendor/autoload.php";
 use UserRegistration\Activity\Logout_class;
 use UserRegistration\Activity\User;
 session_start();
+$limit=2;
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };  
+$start_from = ($page-1) * $limit;  
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +57,7 @@ session_start();
     <?php 
     
      $user_obj=new User();
-     $result=$user_obj->allRecords();
+     $result=$user_obj->allRecords($start_from,$limit);
      
     ?>
     <span>Email:</span> <input type="text" name="email_list" list="emailList" class="in">
@@ -83,7 +87,7 @@ session_start();
     <?php
     if(!$_POST['filter']=="filter")
     {
-    $result=$user_obj->allRecords(); 
+    $result=$user_obj->allRecords($start_from,$limit); 
      while($row = $result->fetch_assoc()){
     ?>  
         <tr>
@@ -122,19 +126,25 @@ session_start();
 
 <?php
  
+ $total_records=$user_obj->getCount();
+$total_pages=ceil($total_records/$limit);
 
+$pagLink="<div class='pagination'>";  
+for ($i=1; $i<=$total_pages; $i++) {  
+             $pagLink .= "<a href='admin.php?page=".$i."'>".$i."</a>";  
+};  
+echo $pagLink . "</div>";   
+// if($_POST['logout']=="Logout")
+//  {
 
-if($_POST['logout']=="Logout")
- {
-
-     if(session_destroy()){
-         header("Location: login.php");
-     }
- }
+//      if(session_destroy()){
+//          header("Location: login.php");
+//      }
+//  }
  
- if($_POST['filter'])
- {
+//  if($_POST['filter'])
+//  {
      
- }
+//  }
 
 ?>
