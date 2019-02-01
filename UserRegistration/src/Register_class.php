@@ -19,6 +19,8 @@ class Register_class extends User
     protected $client;
     protected $to;
     protected $subject;
+    protected $role;
+   
    // public $email;
     public function __construct()
     {
@@ -26,16 +28,35 @@ class Register_class extends User
        // $this->email=$this->client->email;
     }
 
-    public function register()
+    public function register($roles)
     {
+        $this->role=$roles;
         $this->client->test_input();
-        if(!($this->client)->select_query())
+        switch(($this->client)->select_query())
         {
-            if(($this->client)->insert_query())
-            {
-                return true;
-            }
-           return false;
+            case "table is empty": if(($this->client)->select_query()=="table is empty")
+                                  {
+                                     $role="admin";
+                                     if(($this->client)->insert_query($this->role))
+                                        {
+                                            echo "admin registered";
+                                            return true;
+                                         }
+                                         return false;
+                                    }
+                                    
+                                   break;
+                                   
+            case "already registered": return false; 
+            
+            case "not registered":if(($this->client)->insert_query($this->role))
+                                  {
+                                      return "registering guest";
+                                  }
+                                  else{
+                                    return false;
+                                  }
+                                  break;
         }
         return false;
     }
@@ -76,7 +97,7 @@ class Register_class extends User
             ------------------------
              
             Please click this link to activate your account:
-            http://localhost:8888/UserRegistration/verify.php?email='.$email.'&hash='.$this->client->hash.'
+            http://localhost:8888/registration/UserRegistration/verify.php?email='.$email.'&hash='.$this->client->hash.'
             ';
            
             $mail->AltBody = '
@@ -84,7 +105,7 @@ class Register_class extends User
             ';
         
             $mail->send();
-            echo 'Message has been sent';
+           return true;
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }

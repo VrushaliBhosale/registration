@@ -14,22 +14,31 @@ class Login_class extends User
 
     public function login()
     {
-      if(($this->client->test_input())&&($this->client->select_query()))
+      if($this->client->test_input())
       {
-          $istrue=$this->client->isVerified($_POST['email']);
-        
-          if($istrue)
-          {
-            $_SESSION['name']=$this->client->name;
-            echo $_SESSION['name'];
-             return "ok";
-          }
-          else{
-              
-              return "verification_error";
-          }
+        if($this->client->isAdmin()){
+            $_SESSION['admin']=$this->client->name;
+            return "admin";   
+        }
+         else{
+            if($this->client->select_query()=="already registered")
+            {
+                $istrue=$this->client->isVerified($_POST['email']);
+            
+                if($istrue)
+                {
+                    $_SESSION['name']=$this->client->name;
+                   
+                    return "guest";
+                }
+                else{      
+                    return "verification_error";
+                    }
+            }
+            return "register_error";
+         } 
       }
-     return "register_error";
+     
     }
     public function rememberMe()
     {
@@ -45,6 +54,7 @@ class Login_class extends User
 
     public function logout()
     {
+        session_unset();
         session_destroy();
         header("location: login.php");
         return true;

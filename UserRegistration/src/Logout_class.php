@@ -13,7 +13,13 @@ class Logout_class
             session_destroy();
             header("location:login.php");
         }
-        
+        if(isset($_SESSION['admin']))
+        {
+            echo "logout";
+            session_unset();
+            session_destroy();
+            header("location:login.php");
+        }
     }
 }
 ?>

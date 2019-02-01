@@ -7,6 +7,8 @@ session_start();
 
 if(!isset($_SESSION['name']))
 {
+     if(!isset($_SESSION['admin']))
+       {
 ?>
 
 <!DOCTYPE html>
@@ -35,39 +37,48 @@ if(!isset($_SESSION['name']))
 
 <?php
 
-
+print_r($_SESSION['admin']) ;
 if($_SERVER["REQUEST_METHOD"] == "POST")  
  {
      $obj=new Login_class();
      $error=$obj->login();
-     if($error=="register_error")
+     switch($error)
      {
-         echo "Register FIrst";
-     }
-    else if($error=="ok")
-    {
-        header("location:welcome.php");
-        if(!empty($_POST['test']))  
-        {
-            setcookie('remember_name',$_POST['name']);
-            setcookie('remember_email',$_POST['email']);
-            setcookie('remember_pass',$_POST['password']);
-           
-        }
-        else{
-            
-             setcookie('remember_name',"");
-             setcookie('remember_email',"");
-             setcookie('remember_pass',"");
-            
-          }
+        case "admin": header("location:admin.php");
+                      break;
+         
+        case "guest": header("location:welcome.php");
+                        if(!empty($_POST['test']))  
+                        {
+                            setcookie('remember_name',$_POST['name']);
+                            setcookie('remember_email',$_POST['email']);
+                            setcookie('remember_pass',$_POST['password']);
+                        
+                        }
+                        else{
+                            
+                            setcookie('remember_name',"");
+                            setcookie('remember_email',"");
+                            setcookie('remember_pass',"");
+                            
+                        }
+                      break;    
+                      
+        case "verification_error": echo "verify your email first";
+                                   break;               
+
+        case "register_error": echo "register first";
+                      break;             
+                      
        }
-       else if($error="verification_error"){
-        echo "Verify Your email First";
-        }
      }
+ }
+ else{
+    echo "Admin has already logged in <a href='admin.php'>Go to HOme</a>";
+  }
 }
 else{
+    
     echo "You are already logged in <a href='welcome.php'>Go to HOme</a>";
 }
 ?>
