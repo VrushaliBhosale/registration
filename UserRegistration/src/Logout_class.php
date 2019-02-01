@@ -2,11 +2,12 @@
 namespace UserRegistration\Activity;
 use UserRegistration\Activity\User;
 require_once "vendor/autoload.php";
-
+//session_start();
 class Logout_class
 {
     public function logout()
     {
+         var_dump($_SESSION['admin']);
         if(isset($_SESSION['name']))
         {
             session_unset();

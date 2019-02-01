@@ -76,7 +76,7 @@ function __construct()
 
   public function isAdmin()
   {
-      $sql="select * from signed_users where u_id=1";
+      $sql="select * from signed_users where u_id=1 or roles='admin' ";
       $result=mysqli_query($this->conn,$sql);
       if ($result->num_rows > 0)
       {

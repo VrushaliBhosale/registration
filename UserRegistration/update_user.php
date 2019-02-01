@@ -37,7 +37,7 @@ if($_POST['update'])
        echo "Record Updated Successfully";
    }
 }
-print_r($_POST);
+
 if($_POST['delete'] == 'Delete')
 {
    if($obj->deleteUser($_POST['email']))

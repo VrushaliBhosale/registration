@@ -2,6 +2,7 @@
 require_once "vendor/autoload.php";
 use UserRegistration\Activity\Logout_class;
 use UserRegistration\Activity\User;
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +79,6 @@ use UserRegistration\Activity\User;
         <th>Email</th>
         <th>Roles</th>
         <th>Edit</th>
-        <th>Make Admin</th>
         </tr>
     <?php
     if(!$_POST['filter']=="filter")
@@ -91,7 +91,6 @@ use UserRegistration\Activity\User;
         <td><?php echo $row["email"]?></td>
         <td><?php echo $row["roles"]?></td>
         <?php echo '<td><a href="update_user.php?u_id='. $row["u_id"]. '">Edit User</a></td>'?>
-        <td><input type="checkbox" name="myTextEditBox" value="checked"></td>
         </tr>
     <?php } 
         }else{
@@ -104,7 +103,6 @@ use UserRegistration\Activity\User;
         <td><?php echo $data['email']?></td>
         <td><?php echo $data['roles']?></td>
         <?php echo '<td><a href="update_user.php?u_id='. $row["u_id"]. '">Edit User</a></td>'?>
-        <td><input type="checkbox" name="myTextEditBox" value="checked"></td>
         </tr>
                 
             <?php }
@@ -116,7 +114,7 @@ use UserRegistration\Activity\User;
        
         <div class="btns">
         <a href="admin.php">Home</a>
-        <input type="submit" value="Logout" name="logout">
+        <a href="logout.php" class="button">logout</a>
         </div>
     </form>
 </body>
@@ -124,12 +122,14 @@ use UserRegistration\Activity\User;
 
 <?php
  
-session_start();
 
-if($_POST['logout'])
+
+if($_POST['logout']=="Logout")
  {
-    $obj=new Logout_class();
-    $obj->logout();
+
+     if(session_destroy()){
+         header("Location: login.php");
+     }
  }
  
  if($_POST['filter'])

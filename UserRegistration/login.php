@@ -22,9 +22,6 @@ if(!isset($_SESSION['name']))
 <body>
 <h1>LOGIN Page</h1>
     <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-    <?php
-    
-    ?>
     Name:  <input name="name" type="text" required value="<?php echo (isset($_COOKIE['remember_name']))?$_COOKIE['remember_name']:'' ?>"><br><br>
     Email: <input name="email" type="email" required value="<?php echo (isset($_COOKIE['remember_email']))?$_COOKIE['remember_email']:'' ?>"><br><br>
     Password:<input name="password" type="password" required value="<?php echo (isset($_COOKIE['remember_pass']))?$_COOKIE['remember_pass']:'' ?>"><br><br>
